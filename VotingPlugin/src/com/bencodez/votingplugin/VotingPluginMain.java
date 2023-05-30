@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -256,7 +257,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 		}
 
 		if (ymlError) {
-			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+			BukkitScheduler.runTaskLaterAsynchronously(plugin, new Runnable() {
 
 				@Override
 				public void run() {
@@ -926,7 +927,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 	}
 
 	private void loadTimer() {
-		Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+		BukkitScheduler.runTaskLaterAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {
@@ -1045,7 +1046,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 		coolDownCheck.checkEnabled();
 		coolDownCheck.load();
 
-		Bukkit.getScheduler().runTask(plugin, new Runnable() {
+		BukkitScheduler.runTask(plugin, new Runnable() {
 
 			@Override
 			public void run() {
@@ -1055,7 +1056,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 
 		topVoterHandler = new TopVoterHandler(this);
 		lastMonthTopVoter = new LinkedHashMap<TopVoterPlayer, Integer>();
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+		BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {
@@ -1078,7 +1079,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 
 		topVoterHandler.register();
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+		BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {
@@ -1204,7 +1205,7 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 		}
 
 		if (!issues) {
-			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+			BukkitScheduler.runTaskLaterAsynchronously(plugin, new Runnable() {
 
 				@Override
 				public void run() {

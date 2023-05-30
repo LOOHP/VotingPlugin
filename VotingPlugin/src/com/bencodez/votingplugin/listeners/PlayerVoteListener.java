@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -208,7 +209,7 @@ public class PlayerVoteListener implements Listener {
 		if (plugin.getBungeeSettings().isUseBungeecoord()) {
 			if (plugin.getBungeeHandler().getMethod().equals(BungeeMethod.MYSQL)) {
 
-				Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+				BukkitScheduler.runTaskLaterAsynchronously(plugin, new Runnable() {
 
 					@Override
 					public void run() {

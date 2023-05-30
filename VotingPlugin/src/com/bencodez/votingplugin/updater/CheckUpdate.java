@@ -3,6 +3,7 @@ package com.bencodez.votingplugin.updater;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 
 import com.bencodez.advancedcore.api.updater.Updater;
@@ -74,7 +75,7 @@ public class CheckUpdate {
 		if (plugin.getConfigFile().isDisableUpdateChecking()) {
 			return;
 		}
-		Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+		BukkitScheduler.runTaskLaterAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {

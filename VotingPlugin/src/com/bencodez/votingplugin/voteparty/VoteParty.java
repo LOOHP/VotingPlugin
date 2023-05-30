@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -204,7 +205,7 @@ public class VoteParty implements Listener {
 
 		String player = getRandomPlayerName();
 		for (final String cmd : plugin.getSpecialRewardsConfig().getVotePartyGlobalCommands()) {
-			Bukkit.getScheduler().runTask(plugin, new Runnable() {
+			BukkitScheduler.runTask(plugin, new Runnable() {
 
 				@Override
 				public void run() {

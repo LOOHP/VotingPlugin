@@ -2,6 +2,7 @@ package com.bencodez.votingplugin.test;
 
 import java.util.ArrayList;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 
 import com.bencodez.advancedcore.api.rewards.Reward;
@@ -94,7 +95,7 @@ public class VoteTester {
 
 	public void testSpam(int amount, String name, String site) {
 		for (int i = 0; i < amount; i++) {
-			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 				@Override
 				public void run() {

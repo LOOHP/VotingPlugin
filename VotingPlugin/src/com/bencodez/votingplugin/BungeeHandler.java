@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -523,7 +524,7 @@ public class BungeeHandler implements Listener {
 				@Override
 				public void onRecieve(String subChannel, ArrayList<String> args) {
 					for (final String cmd : plugin.getBungeeSettings().getBungeeVotePartyGlobalCommands()) {
-						Bukkit.getScheduler().runTask(plugin, new Runnable() {
+						BukkitScheduler.runTask(plugin, new Runnable() {
 
 							@Override
 							public void run() {

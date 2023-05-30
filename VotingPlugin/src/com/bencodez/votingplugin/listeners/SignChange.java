@@ -1,5 +1,6 @@
 package com.bencodez.votingplugin.listeners;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +48,7 @@ public class SignChange implements Listener {
 					plugin.getServerData().addSign(event.getBlock().getLocation(), event.getLine(2),
 							Integer.parseInt(event.getLine(1)));
 					event.getPlayer().sendMessage(StringParser.getInstance().colorize("&aAdded sign!"));
-					Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+					BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 						@Override
 						public void run() {

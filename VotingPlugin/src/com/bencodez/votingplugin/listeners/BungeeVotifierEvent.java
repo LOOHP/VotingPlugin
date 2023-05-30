@@ -1,5 +1,6 @@
 package com.bencodez.votingplugin.listeners;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 
 import com.bencodez.votingplugin.VotingPluginMain;
@@ -10,7 +11,7 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 public class BungeeVotifierEvent {
 	public void send(VotingPluginMain plugin, PlayerVoteEvent event) {
 		plugin.debug("Triggering vote event");
-		Bukkit.getScheduler().runTask(plugin, new Runnable() {
+		BukkitScheduler.runTask(plugin, new Runnable() {
 
 			@Override
 			public void run() {

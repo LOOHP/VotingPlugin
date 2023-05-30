@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -646,7 +647,7 @@ public class CommandLoader {
 			public void execute(CommandSender sender, String[] args) {
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
-					Bukkit.getScheduler().runTask(plugin, new Runnable() {
+					BukkitScheduler.runTask(plugin, new Runnable() {
 
 						@Override
 						public void run() {
@@ -655,7 +656,7 @@ public class CommandLoader {
 					});
 
 				} else {
-					Bukkit.getScheduler().runTask(plugin, new Runnable() {
+					BukkitScheduler.runTask(plugin, new Runnable() {
 
 						@Override
 						public void run() {
@@ -1193,7 +1194,7 @@ public class CommandLoader {
 			@Override
 			public void execute(CommandSender sender, String[] args) {
 
-				Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+				BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 					@Override
 					public void run() {
@@ -1680,7 +1681,7 @@ public class CommandLoader {
 	public void loadCommands() {
 		loadAdminVoteCommand();
 		loadVoteCommand();
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+		BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {
@@ -2451,7 +2452,7 @@ public class CommandLoader {
 					public void execute(CommandSender sender, String[] args) {
 						sendMessage(sender, section.getString("Message", ""));
 						for (String str : (ArrayList<String>) section.getList("Commands", new ArrayList<String>())) {
-							Bukkit.getScheduler().runTask(plugin, new Runnable() {
+							BukkitScheduler.runTask(plugin, new Runnable() {
 
 								@Override
 								public void run() {

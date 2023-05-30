@@ -1,5 +1,6 @@
 package com.bencodez.votingplugin.listeners;
 
+import com.bencodez.advancedcore.scheduler.BukkitScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -39,7 +40,7 @@ public class BlockBreak implements Listener {
 		if (event.getBlock().getState() instanceof Sign) {
 			Sign s = (Sign) event.getBlock().getState();
 			final Location loc = s.getLocation();
-			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			BukkitScheduler.runTaskAsynchronously(plugin, new Runnable() {
 
 				@Override
 				public void run() {
