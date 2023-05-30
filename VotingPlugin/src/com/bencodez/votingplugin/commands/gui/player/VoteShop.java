@@ -54,6 +54,10 @@ public class VoteShop extends GUIHandler {
 		if (this.user == null) {
 			user = plugin.getVotingPluginUserManager().getVotingPluginUser(player);
 		}
+		VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
+		/*
+		 * if (!plugin.getConfigFile().isExtraVoteShopCheck()) { user.cacheAsync(); }
+		 */
 		BInventory inv = new BInventory(plugin.getGui().getChestVoteShopName());
 		inv.addPlaceholder("points", "" + user.getPoints());
 		inv.addPlaceholder("sitesavailable", "" + user.getSitesNotVotedOn());
@@ -93,7 +97,9 @@ public class VoteShop extends GUIHandler {
 							Player player = event.getWhoClicked();
 
 							VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-							user.cache();
+							if (plugin.getConfigFile().isExtraVoteShopCheck()) {
+								user.cache();
+							}
 
 							String identifier = (String) getData("identifier");
 							int limit = (int) getData("Limit");
@@ -118,9 +124,12 @@ public class VoteShop extends GUIHandler {
 												plugin.getGui().getChestShopIdentifierIdentifierName(identifier));
 										placeholders.put("points", "" + points);
 										placeholders.put("limit", "" + limit);
-										if (user.removePoints(points)) {
+										if (user.removePoints(points, true)) {
 											plugin.getLogger().info("VoteShop: " + user.getPlayerName() + "/"
 													+ user.getUUID() + " bought " + identifier + " for " + points);
+											if (plugin.getConfigFile().isTrackShopPurchases()) {
+												plugin.getServerData().addVoteShopPurchase(identifier);
+											}
 
 											plugin.getRewardHandler().giveReward(user, plugin.getGui().getData(),
 													plugin.getGui().getChestShopIdentifierRewardsPath(identifier),
@@ -145,6 +154,9 @@ public class VoteShop extends GUIHandler {
 									user.sendMessage(plugin.getGui().getChestVoteShopLimitReached());
 								}
 								plugin.getCommandLoader().processSlotClick(player, user, identifier);
+								if (plugin.getGui().getChestVoteShopReopenGUIOnPurchase()) {
+									plugin.getCommandLoader().processSlotClick(player, user, "shop");
+								}
 							}
 						}
 

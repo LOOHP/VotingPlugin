@@ -245,6 +245,16 @@ Format:
       # %Points% = player points
       Points: '&a%Player% currently has &a&l%Points%&a Points!'
       
+      # /vote givepoints command
+      # Transfer between players command
+      # Enable command below
+      GivePoints:
+        NotEnoughPoints: '&cNot enough points'
+        NotJoinedServer: '&c%player% has not joined the server'
+        NumberLowerThanZero: '&cNumber of points needs to be greater than 0'
+        TransferFrom: '&c%transfer% points given to %touser%'
+        TransferTo: '&cYou received %transfer% points from %fromuser%'
+      
       ToggleBroadcasts:
         Enabled: '&cYou will now see vote broadcasts'
         Disabled: '&cYou will no longer see vote broadcasts'
@@ -528,6 +538,11 @@ OnlineMode: true
 # May improve performance
 #DisableCheckOnWorldChange: false
 
+# If true, number of vote shop purchases will be tracked
+# Data will be tracked in serverdata.yml, may change in the future
+# No commands to view data currently 
+TrackShopPurchases: false
+
 ###########################################
 # Skull settings
 ###########################################
@@ -646,11 +661,6 @@ DelayBetweenUpdates: 3
 # Recommend leaving this to false
 ExtraBackgroundUpdate: false
 
-# Limit number of users to load in a second
-# Effects background tasks mainly
-# set to -1 to disable (default value)
-#PlayerDataLoadLimit: 500
-
 ##########################################
 # Inventory controls
 ##########################################
@@ -698,6 +708,10 @@ PurgeMin: 90
 # Extra options
 # Options below don't need to be touched
 ##########################################
+
+# If enabled, data is repulled from storage on vote shop purchase
+# This prevents possible exploits with vote shop
+ExtraVoteShopCheck: true
 
 # Options for request api
 # Current methods:

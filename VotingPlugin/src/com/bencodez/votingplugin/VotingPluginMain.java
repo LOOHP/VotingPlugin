@@ -83,6 +83,7 @@ import com.bencodez.votingplugin.placeholders.MVdWPlaceholders;
 import com.bencodez.votingplugin.placeholders.PlaceHolders;
 import com.bencodez.votingplugin.signs.Signs;
 import com.bencodez.votingplugin.specialrewards.SpecialRewards;
+import com.bencodez.votingplugin.test.VoteTester;
 import com.bencodez.votingplugin.timequeue.TimeQueueHandler;
 import com.bencodez.votingplugin.topvoter.TopVoter;
 import com.bencodez.votingplugin.topvoter.TopVoterHandler;
@@ -146,6 +147,9 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 
 	@Getter
 	private PlaceHolders placeholders;
+	
+	@Getter
+	private VoteTester voteTester;
 
 	@Getter
 	private String profile = "";
@@ -1014,6 +1018,8 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 	public void onPostLoad() {
 		loadVersionFile();
 		getOptions().setServer(bungeeSettings.getServer());
+		
+		voteTester = new VoteTester(plugin);
 
 		loadVoteTimer();
 
@@ -1421,6 +1427,9 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 		plugin.debug("Loaded Files");
 	}
 
+	@Getter
+	private long lastBackgroundTaskTimeTaken = -1;
+
 	public void update() {
 		if (update || configFile.isAlwaysUpdate()) {
 			if (!updateStarted && plugin != null) {
@@ -1435,7 +1444,6 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 							plugin.debug("Starting background task, current cached users: "
 									+ plugin.getUserManager().getDataManager().getUserDataCache().keySet().size());
 
-							int dataLoadLimit = getConfigFile().getPlayerDataLoadLimit();
 							try {
 								boolean extraBackgroundUpdate = configFile.isExtraBackgroundUpdate();
 								long startTime = System.currentTimeMillis();
@@ -1459,8 +1467,11 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 
 								// ArrayList<String> uuids = UserManager.getInstance().getAllUUIDs();
 								int currentDay = LocalDateTime.now().getDayOfMonth();
-								int currentDataLoad = 0;
 								HashMap<UUID, ArrayList<Column>> cols = plugin.getUserManager().getAllKeys();
+								long time1 = ((System.currentTimeMillis() - startTime) / 1000);
+								plugin.debug("Finished getting player data in " + time1 + " seconds, " + cols.size()
+										+ " users, " + plugin.getStorageType().toString());
+								time1 = System.currentTimeMillis();
 								for (Entry<UUID, ArrayList<Column>> playerData : cols.entrySet()) {
 
 									String uuid = playerData.getKey().toString();
@@ -1469,7 +1480,8 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 											VotingPluginUser user = UserManager.getInstance()
 													.getVotingPluginUser(UUID.fromString(uuid), false);
 											user.dontCache();
-											user.updateCacheWithColumns(playerData.getValue());
+											user.updateTempCacheWithColumns(playerData.getValue());
+											cols.put(playerData.getKey(), null);
 											if (!user.isBanned() && !blackList.contains(user.getPlayerName())) {
 
 												if (!topVoterIgnorePermissionUse || !user.isTopVoterIgnore()) {
@@ -1511,24 +1523,13 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 											}
 											user.clearTempCache();
 											user = null;
-											if (dataLoadLimit > 0) {
-												currentDataLoad++;
-												if (currentDataLoad >= dataLoadLimit) {
-													currentDataLoad -= dataLoadLimit;
-													Thread.sleep(1000);
-												}
-											}
 										}
 									} else {
 										return;
 									}
 								}
-								update = false;
-								long time1 = ((System.currentTimeMillis() - startTime) / 1000);
-								plugin.debug("Finished loading player data in " + time1 + " seconds, " + cols.size()
-										+ " users, " + plugin.getStorageType().toString() + ", data load limit: "
-										+ dataLoadLimit);
-								time1 = System.currentTimeMillis();
+								cols.clear();
+								cols = null;
 
 								topVoterHandler.updateTopVoters(tempTopVoter);
 								placeholders.onUpdate();
@@ -1536,17 +1537,22 @@ public class VotingPluginMain extends AdvancedCorePlugin {
 								serverData.updateValues();
 								getSigns().updateSigns();
 
-								tempTopVoter = null;
-
 								checkFirstTimeLoaded();
 
-								time1 = ((System.currentTimeMillis() - time1) / 1000);
-								long totalTime = ((System.currentTimeMillis() - startTime) / 1000);
-								plugin.debug("Background task finished. Final processing took " + time1
-										+ " seconds. Total time: " + totalTime + " seconds");
 								plugin.getUserManager().getDataManager().clearNonNeededCachedUsers();
 								plugin.extraDebug("Current cached users: "
 										+ plugin.getUserManager().getDataManager().getUserDataCache().keySet().size());
+
+								update = false;
+
+								tempTopVoter = null;
+
+								time1 = ((System.currentTimeMillis() - time1) / 1000);
+								long totalTime = ((System.currentTimeMillis() - startTime) / 1000);
+								lastBackgroundTaskTimeTaken = totalTime;
+								plugin.debug("Background task finished. Final processing took " + time1
+										+ " seconds. Total time: " + totalTime + " seconds");
+
 							} catch (Exception ex) {
 								if (plugin != null) {
 									plugin.getLogger().info("Looks like something went wrong");

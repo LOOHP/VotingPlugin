@@ -54,10 +54,6 @@ public class Config extends YMLFile {
 	@Getter
 	private boolean allowUnJoinedCheckServer = true;
 
-	@ConfigDataInt(path = "PlayerDataLoadLimit")
-	@Getter
-	private int playerDataLoadLimit = -1;
-
 	@ConfigDataBoolean(path = "AllowVotePointTransfers")
 	@Getter
 	private boolean allowVotePointTransfers = false;
@@ -69,6 +65,14 @@ public class Config extends YMLFile {
 	@ConfigDataBoolean(path = "AlwaysCloseInventory")
 	@Getter
 	private boolean alwaysCloseInventory = false;
+
+	@ConfigDataBoolean(path = "ExtraVoteShopCheck")
+	@Getter
+	private boolean extraVoteShopCheck = true;
+
+	@ConfigDataBoolean(path = "TrackShopPurchases")
+	@Getter
+	private boolean trackShopPurchases = false;
 
 	@ConfigDataBoolean(path = "AlwaysUpdate")
 	@Getter
@@ -161,6 +165,26 @@ public class Config extends YMLFile {
 	@ConfigDataString(path = "Format.Commands.Vote.Last.LastVoted")
 	@Getter
 	private String formatCommandsVoteLastLastVoted = "%times% ago";
+
+	@ConfigDataString(path = "Format.Commands.Vote.GivePoints.NotEnoughPoints")
+	@Getter
+	private String formatCommandsVoteGivePointsNotEnoughPoints = "&cNot enough points";
+
+	@ConfigDataString(path = "Format.Commands.Vote.GivePoints.NotJoinedServer")
+	@Getter
+	private String formatCommandsVoteGivePointsNotJoinedServer = "&c%player% has not joined the server";
+
+	@ConfigDataString(path = "Format.Commands.Vote.GivePoints.NumberLowerThanZero")
+	@Getter
+	private String formatCommandsVoteGivePointsNumberLowerThanZero = "&cNumber of points needs to be greater than 0";
+
+	@ConfigDataString(path = "Format.Commands.Vote.GivePoints.TransferFrom")
+	@Getter
+	private String formatCommandsVoteGivePointsTransferFrom = "&c%transfer% points given to %touser%";
+
+	@ConfigDataString(path = "Format.Commands.Vote.GivePoints.TransferTo")
+	@Getter
+	private String formatCommandsVoteGivePointsTransferTo = "&cYou received %transfer points from %fromuser%";
 
 	@ConfigDataString(path = "Format.Commands.Vote.Last.Line", defaultValue = "&3%SiteName%: &6%timeSince% ago")
 	@Getter

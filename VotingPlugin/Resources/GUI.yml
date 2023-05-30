@@ -143,6 +143,10 @@ CHEST:
   VoteNext:
     Name: 'VoteNext: %player%'
     BackButton: true
+    # Extra customization for displaying site names in GUI only
+    #CustomSiteNamesDisplays:
+    #  Site1: site name display
+    LoreLine: '%time%'
   VoteToday:
     Name: 'VoteToday'
     Line: '&6%VoteSite% : %Time%'
@@ -305,6 +309,8 @@ CHEST:
   VoteShopLimitReached: '&aYou reached your limit'
   VoteShopRequireConfirmation: false
   VoteShopDisabled: '&cVote shop disabled'
+  # If true, shop gui will reopen, updating all placeholders
+  VoteShopReopenGUIOnPurchase: false
   # VoteShop extra items for display only
   #VoteShopExtraItems:
     #Item:
